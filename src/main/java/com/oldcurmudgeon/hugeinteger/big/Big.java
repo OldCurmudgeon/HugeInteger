@@ -108,8 +108,8 @@ public class Big implements Sparse<BigInteger, BigInteger> {
        * All Bigs are forced to have the bottom byte non-zero so if both index and value are the same
        * then the number is the same.
        */
-      return it.index == index
-              && it.value == value;
+      return it.index.equals(index)
+              && it.value.equals(value);
     }
     if (o instanceof BigInteger) {
       // Shift by the index - may blow up when huge.
@@ -134,6 +134,8 @@ public class Big implements Sparse<BigInteger, BigInteger> {
     Big b = new Big(BigInteger.valueOf(64), bigB);
     System.out.println("bigB = " + bigB.toString(2) + " b = " + b);
     Big c = new Big(BigInteger.valueOf(8), bigA);
+    Big cc = new Big(c);
+    System.out.println("c = " + c.toString(2) + " d = " + (c.equals(cc)?"equal":"NOT equal"));
     BigInteger d = bigA.shiftLeft(8);
     System.out.println("c = " + c.toString(2) + " d = " + d.toString(2)+" "+(c.equals(d)?"equal":"NOT equal"));
   }

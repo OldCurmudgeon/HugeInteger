@@ -14,9 +14,9 @@ import static org.junit.Assert.*;
  * @author Paul Caswell
  */
 public class BigTest {
-  static final BigInteger bigA = new BigInteger(new byte[]{1, 0, 1, 1, 0, 0, 0, 1});
+  static final BigInteger bigA = new BigInteger(new byte[]{1, 0, 1, 1, 0, 0, 1});
   static final Big a = new Big(BigInteger.ZERO, bigA);
-  static final BigInteger bigB = new BigInteger(new byte[]{1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0});
+  static final BigInteger bigB = new BigInteger(new byte[]{1, 0, 1, 1, 0, 0, 1, 0, 0, 0});
   static final Big b = new Big(BigInteger.valueOf(64), bigB);
   static final Big[] c = new Big[]{
     new Big(BigInteger.valueOf(0), bigA),
@@ -39,7 +39,7 @@ public class BigTest {
     System.out.println("a = " + a);
     System.out.println("b = " + b);
     for ( int i = 0; i < c.length; i++ ) {
-      System.out.println("c["+i+"] = " + c[i]+" index="+c[i].index()+" length="+c[i].length());
+      System.out.println("c["+i+"] = " + c[i]+" index="+c[i].index()+" length="+c[i].length()+" value="+c[i].value());
     }
   }
 
@@ -48,7 +48,6 @@ public class BigTest {
    */
   @Test
   public void testIndex() {
-    // Index of each c should be i%8.
     for ( int i = 0; i < c.length; i++ ) {
       assertEquals("c["+i+"].index()", c[i].index(), BigInteger.valueOf((i/8)*8));
     }
@@ -60,7 +59,7 @@ public class BigTest {
   @Test
   public void testLength() {
     for ( int i = 0; i < c.length; i++ ) {
-      assertEquals("c["+i+"].length()", c[i].length(), BigInteger.valueOf(bigA.bitLength()+i));
+      assertEquals("c["+i+"].length()", c[i].length(), BigInteger.valueOf(bigA.bitLength()+(i%8)));
     }
   }
 
@@ -70,7 +69,7 @@ public class BigTest {
   @Test
   public void testValue() {
     for ( int i = 0; i < c.length; i++ ) {
-      assertEquals("c["+i+"].value()", c[i].value(), bigA.shiftLeft(i));
+      assertEquals("c["+i+"].value()", c[i].value().shiftLeft(c[i].index().intValue()), bigA.shiftLeft(i));
     }
   }
 
