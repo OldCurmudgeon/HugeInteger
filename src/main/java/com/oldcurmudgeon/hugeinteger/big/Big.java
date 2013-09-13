@@ -64,6 +64,10 @@ public class Big implements Sparse<BigInteger, BigInteger> {
     this(BigInteger.valueOf(value));
   }
 
+  public Big(Big value) {
+    this(value.index, value.value);
+  }
+
   @Override
   public BigInteger index() {
     return index;
@@ -85,7 +89,15 @@ public class Big implements Sparse<BigInteger, BigInteger> {
   }
 
   public String toString(int base) {
-    return ("[" + index.toString() + "]:" + value.toString(base));
+    StringBuilder sb = new StringBuilder(value.toString(base));
+    switch (base) {
+      case 2:
+        for (int i = sb.length() - 8; i > 0; i -= 8) {
+          sb.insert(i, "-");
+        }
+        break;
+    }
+    return sb.toString() + ":[" + index.toString() + "(" + index.divide(BG) + ")" + "]";
   }
 
   @Override
@@ -98,6 +110,10 @@ public class Big implements Sparse<BigInteger, BigInteger> {
        */
       return it.index == index
               && it.value == value;
+    }
+    if (o instanceof BigInteger) {
+      // Shift by the index - may blow up when huge.
+      return value.shiftLeft(index.intValue()).equals((BigInteger) o);
     }
     return false;
   }
@@ -117,6 +133,9 @@ public class Big implements Sparse<BigInteger, BigInteger> {
     BigInteger bigB = new BigInteger(new byte[]{1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0});
     Big b = new Big(BigInteger.valueOf(64), bigB);
     System.out.println("bigB = " + bigB.toString(2) + " b = " + b);
+    Big c = new Big(BigInteger.valueOf(8), bigA);
+    BigInteger d = bigA.shiftLeft(8);
+    System.out.println("c = " + c.toString(2) + " d = " + d.toString(2)+" "+(c.equals(d)?"equal":"NOT equal"));
   }
 
 }
