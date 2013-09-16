@@ -17,6 +17,7 @@ package com.oldcurmudgeon.hugeinteger.big;
 
 import com.oldcurmudgeon.toolbox.walkers.Separator;
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * Defines a stream of bits to perform maths over.
@@ -376,6 +377,11 @@ public abstract class Bits<T extends Sparse<BigInteger, BigInteger>> implements 
             new Big(BigInteger.ZERO, new BigInteger(new byte[]{1, 0, 0, 1, 0, 0, 1, 1})));
     System.out.println("i(" + i + ") xor j(" + j + ") = " + apply(i, j, Op.xor));
 
+    System.out.println("127 = "+Separator.separate("[",",","]",BigInteger.valueOf(127).toByteArray()));
+    System.out.println("128 = "+Separator.separate("[",",","]",BigInteger.valueOf(128).toByteArray()));
+    System.out.println("254 = "+Separator.separate("[",",","]",BigInteger.valueOf(254).toByteArray()));
+    System.out.println("255 = "+Separator.separate("[",",","]",BigInteger.valueOf(255).toByteArray()));
+    System.out.println("256 = "+Separator.separate("[",",","]",BigInteger.valueOf(256).toByteArray()));
   }
 
 }
